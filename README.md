@@ -2,8 +2,19 @@
 
 I found PicoFLANN and compare the speed of alorithms, namely *PCL FLANN*, *NanoFLANN*, and *PicoFLANN*.
 
-[NanoFLANN](https://github.com/jlblancoc/nanoflann)
+## Characteristics
 
-[PicoFLANN](https://github.com/rmsalinas/picoflann) (The original developer says it is faster than NanoFLANN, but it isn't for robotics applications)
+* Set NanoFLANN and PicoFLANN to be avaiable on Point Cloud Libarary (PCL).
+* It's simple to use them! Just git pull this repository, then copy & paste the header files in `include` folder.
 
-## Results
+## Reference    
+* [PCL FLANN](https://pointclouds.org/documentation/tutorials/kdtree_search.html)
+* [NanoFLANN](https://github.com/jlblancoc/nanoflann)
+* [PicoFLANN](https://github.com/rmsalinas/picoflann) (The original developer says it is faster than NanoFLANN, but it isn't for robotics applications)
+
+
+## Simulation results
+
+One-line summary: For robotics application, NanoFLANN is better than other FLANN implementations.
+
+
