@@ -15,6 +15,10 @@ I found PicoFLANN and compare the speed of alorithms, namely *PCL FLANN*, *NanoF
 
 ## Simulation results
 
+Experiments: Please refer to `src/main.cpp`. I reran the experiment 1,000 times to measure mean speed of each case.
+
 One-line summary: For robotics application, NanoFLANN is better than other FLANN implementations.
 
+
+![knn1](imgs/knn1.png)
 
