@@ -19,6 +19,6 @@ Experiments: Please refer to `src/main.cpp`. I reran the experiment 1,000 times 
 
 One-line summary: For robotics application, NanoFLANN is better than other FLANN implementations.
 
+Results can be shown in [pdf](imgs/flann_speed.pdf)
 
-![knn1](imgs/knn1.png)
 
