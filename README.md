@@ -10,7 +10,7 @@ I found PicoFLANN and compare the speed of alorithms, namely *PCL FLANN*, *NanoF
 ## Reference    
 * [PCL FLANN](https://pointclouds.org/documentation/tutorials/kdtree_search.html)
 * [NanoFLANN](https://github.com/jlblancoc/nanoflann)
-* [PicoFLANN](https://github.com/rmsalinas/picoflann) (The original developer says it is faster than NanoFLANN, but it isn't for robotics applications)
+* [PicoFLANN](https://github.com/rmsalinas/picoflann) (The original developer says it is faster than NanoFLANN, and it actually is when the scale of points becomes larger)
 
 
 ## Simulation results
