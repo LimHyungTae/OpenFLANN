@@ -1281,6 +1281,7 @@ public:
     RadiusResultSet<DistanceType, IndexType> resultSet(radius, IndicesDists);
     const size_t nFound =
         radiusSearchCustomCallback(query_point, resultSet, searchParams);
+//    std::cout<<nFound<<std::endl;
     if (searchParams.sorted)
       std::sort(IndicesDists.begin(), IndicesDists.end(), IndexDist_Sorter());
     return nFound;

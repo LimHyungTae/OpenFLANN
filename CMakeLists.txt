@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.17)
 project(OpenFLANN)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -18,6 +18,9 @@ include_directories(
 
 add_executable(kdtree_benchmark src/main.cpp)
 target_link_libraries(kdtree_benchmark ${PCL_LIBRARIES})
+
+add_executable(kdtree_nanoflann src/nanoflann_example.cpp)
+target_link_libraries(kdtree_nanoflann ${PCL_LIBRARIES})
 
 add_executable(kdtree_picoflann src/picoflann_example.cpp)
 target_link_libraries(kdtree_picoflann ${PCL_LIBRARIES})

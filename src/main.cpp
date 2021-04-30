@@ -43,7 +43,7 @@ int main (int argc, char** argv)
 
     vector<int> num_random_pts = {10000, 30000, 60000, 100000, 200000};
     vector<int> num_K_pts = {1, 10, 100, 500, 1000, 5000};
-    vector<int> num_radius = {1, 10, 20, 40, 80};
+    vector<int> num_radius = {10, 20, 40, 80};
 
     vector<int> params;
     string target = "radius"; // radius or knn
@@ -108,6 +108,7 @@ int main (int argc, char** argv)
                     PicoFLANN_kdtree.nearestKSearch(searchPoint, K, idxPico, distPico);
                     c_k3 = clock();
                 }else if (target == "radius"){
+                    std::cout<<"Searching radius..."<<std::endl;
                     c_k0 = clock();
                     PCLFLANN_kdtree.radiusSearch(searchPoint, K, idxPcl, distPcl);
                     c_k1 = clock();
@@ -115,6 +116,9 @@ int main (int argc, char** argv)
                     c_k2 = clock();
                     PicoFLANN_kdtree.radiusSearch(searchPoint, K, idxPico, distPico);
                     c_k3 = clock();
+
+                    cout<<idxPcl.size()<<" , "<<idxNano.size()<< " , "<<idxPico.size()<<endl;
+                    cout<<distPcl.size()<<" , "<<distNano.size()<< " , "<<distPico.size()<<endl;
                 }
 
                 TimeSet K_ts = print_time(c_k0, c_k1, c_k2, c_k3);
