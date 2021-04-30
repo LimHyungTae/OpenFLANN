@@ -34,6 +34,7 @@ void print_vectors(vector<T>& v0, vector<T>& v1, vector<T>& v2){
         cout<<v0[i]<<" | "<<v1[i]<< " | "<<v2[i]<<endl;
     }
 }
+
 int main (int argc, char** argv)
 {
     srand (time (NULL));
@@ -42,18 +43,36 @@ int main (int argc, char** argv)
     picoflann_pcl::KdTreeFLANN<pcl::PointXYZ> PicoFLANN_kdtree;
 
     vector<int> num_random_pts = {10000, 30000, 60000, 100000, 200000};
-    vector<int> num_K_pts = {1, 10, 100, 500, 1000, 5000};
-    vector<int> num_radius = {10, 20, 40, 80};
+    vector<int> K_pts = {1, 10, 100, 500, 1000, 5000};
+    vector<double> radiuses = {5.0, 10.0, 20.0, 40.0, 80.0};
 
-    vector<int> params;
-    string target = "radius"; // radius or knn
-    if (target == "radius")     params = num_radius;
-    else if (target == "knn")   params = num_K_pts;
+    // --------- Set target param -----------
+    string target = "knn"; // radius or knn
+    // --------------------------------------
+    int num_params;
+    if (target == "radius"){
+        num_params = radiuses.size();
+    }
+    else if (target == "knn"){
+        num_params = K_pts.size();
+    }
+
+    string absDir = "/home/shapelim/CLionProjects/OpenFLANN/outputs";
+    double searchRadius; // for radiusSearch
+    int K; // for KNN
     for (const int& NUM_RANDOM_SAMPLE_POINTS: num_random_pts) {
-        for (const int &parameter: params) {
-            cout<<parameter<<" | "<<NUM_RANDOM_SAMPLE_POINTS<<endl;
-            string absDir = "/home/shapelim/CLionProjects/kdtree_flann/outputs";
-            string txtname = to_string(parameter) + "_" + to_string(NUM_RANDOM_SAMPLE_POINTS) + ".txt";
+        for (int ii = 0; ii < num_params; ++ii) {
+            string targetName;
+            if (target == "radius"){
+                searchRadius = radiuses[ii];
+                targetName = to_string(int(round(searchRadius * 10) / 10));
+            }
+            else if (target == "knn"){
+                K = K_pts[ii];
+                targetName = to_string(K);
+            }
+
+            string txtname = targetName + "_" + to_string(NUM_RANDOM_SAMPLE_POINTS) + ".txt";
             string pclFilename = absDir + "/pcl_" + txtname;
             string nanoFilename = absDir + "/nano_" + txtname;
             string picoFilename = absDir + "/pico_" + txtname;
@@ -94,7 +113,6 @@ int main (int argc, char** argv)
                 searchPoint.z = RANDOM_SCALE * rand() / (RAND_MAX + 1.0f);
 
                 // K nearest neighbor search or Radius
-                int K = parameter;
 
                 std::vector<int> idxPcl(K), idxNano(K), idxPico(K);
                 std::vector<float> distPcl(K), distNano(K), distPico(K);
@@ -110,22 +128,22 @@ int main (int argc, char** argv)
                 }else if (target == "radius"){
                     std::cout<<"Searching radius..."<<std::endl;
                     c_k0 = clock();
-                    PCLFLANN_kdtree.radiusSearch(searchPoint, K, idxPcl, distPcl);
+                    PCLFLANN_kdtree.radiusSearch(searchPoint, searchRadius, idxPcl, distPcl);
                     c_k1 = clock();
-                    NanoFLANN_kdtree.radiusSearch(searchPoint, K, idxNano, distNano);
+                    NanoFLANN_kdtree.radiusSearch(searchPoint, searchRadius, idxNano, distNano);
                     c_k2 = clock();
-                    PicoFLANN_kdtree.radiusSearch(searchPoint, K, idxPico, distPico);
+                    PicoFLANN_kdtree.radiusSearch(searchPoint, searchRadius, idxPico, distPico);
                     c_k3 = clock();
-
-                    cout<<idxPcl.size()<<" , "<<idxNano.size()<< " , "<<idxPico.size()<<endl;
-                    cout<<distPcl.size()<<" , "<<distNano.size()<< " , "<<distPico.size()<<endl;
+//                    To check the size!
+//                    cout<<idxPcl.size()<<" , "<<idxNano.size()<< " , "<<idxPico.size()<<endl;
+//                    cout<<distPcl.size()<<" , "<<distNano.size()<< " , "<<distPico.size()<<endl;
                 }
 
                 TimeSet K_ts = print_time(c_k0, c_k1, c_k2, c_k3);
 
-                pclO << init_ts._t_pcl << " " << K_ts._t_pcl << "\n" << endl;
-                nanoO << init_ts._t_nano << " " << K_ts._t_nano << "\n" << endl;
-                picoO << init_ts._t_pico << " " << K_ts._t_pico << "\n" << endl;
+                pclO << init_ts._t_pcl << " " << K_ts._t_pcl<< endl;
+                nanoO << init_ts._t_nano << " " << K_ts._t_nano<< endl;
+                picoO << init_ts._t_pico << " " << K_ts._t_pico<< endl;
             }
             pclO.close();
             nanoO.close();

@@ -156,17 +156,13 @@ namespace nanoflann
                                           std::vector<int> &k_indices,
                                           std::vector<float> &k_sqr_distances) const
     {
+        double radius_square = radius * radius;
         static std::vector<std::pair<int, float> > indices_dist;
         indices_dist.reserve( 128 );
 
-        RadiusResultSet<float, int> resultSet(radius, indices_dist);
-//        const size_t nFound = _kdtree.findNeighbors(resultSet, point.data, _params);
-        const size_t nFound = _kdtree.radiusSearch(point.data, radius, indices_dist, nanoflann::SearchParams() );
-        const size_t nFound2 = _kdtree.template radiusSearchCustomCallback(point.data, resultSet, _params);
-
-        std::cout<<"find1?"<<nFound<<std::endl;
-        std::cout<<"find2?"<<nFound2<<std::endl;
-        std::cout<<"find2?"<<indices_dist.size()<<std::endl;
+        // Square radius should be taken input
+        RadiusResultSet<float, int> resultSet(radius_square, indices_dist);
+        const size_t nFound = _kdtree.radiusSearch(point.data, radius_square, indices_dist, nanoflann::SearchParams() );
 
         if (_params.sorted)
             std::sort(indices_dist.begin(), indices_dist.end(), IndexDist_Sorter() );

@@ -19,6 +19,27 @@ Experiments: Please refer to `src/main.cpp`. I reran the experiment 1,000 times 
 
 One-line summary: For robotics application, NanoFLANN is better than other FLANN implementations.
 
-Results can be shown in [pdf](imgs/flann_speed.pdf)
+You can show the results via python code (tabulate is necessary)
+```
+cd outputs
+python viz_output.py
+```
+
+### K-Nearest Neighbor
+
+![00_knn](imgs/knn_1.png)
+
+![01_knn](imgs/knn_2.png)
+
+![02_knn](imgs/knn_3.png)
+
+
+### Radius Search
+
+![00_raw](imgs/radius_1.png)
+
+![01_raw](imgs/radius_2.png)
+
+![02_raw](imgs/radius_3.png)
 
 
